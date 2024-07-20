@@ -54,4 +54,8 @@ export interface WeatherData {
     gust_mph: number;
     gust_kph: number;
   };
+  error?: {
+    code: number;
+    message: string;
+  };
 }

@@ -1,27 +1,22 @@
-'use client';
-
 import { WeatherData } from '@/app/lib/definitions';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
-export default function CityDetails({ params }: { params: { city: string } }) {
+export default async function CityDetails({
+  params,
+}: {
+  params: { city: string };
+}) {
   const city = params.city;
-  const [weatherData, setWeatherData] = useState<WeatherData>();
+  const response = await fetch(
+    'http://localhost:3000/api/details?city=' + city,
+  );
 
-  useEffect(() => {
-    const fetchWeatherData = async () => {
-      const response = await fetch(
-        'http://api.weatherapi.com/v1/current.json?key=5909ef944078401b81405756241905&q=' +
-          city,
-      );
-      const data: WeatherData = await response.json();
-      setWeatherData(data);
-    };
-    fetchWeatherData();
-  }, []);
+  const weatherData: { city: string; weather: WeatherData } =
+    await response.json();
 
-  const location = weatherData?.location;
-  const weather = weatherData?.current;
+  const error = weatherData.weather?.error;
+  const location = weatherData.weather?.location;
+  const weather = weatherData.weather?.current;
   const now = new Date();
 
   return (
@@ -29,13 +24,12 @@ export default function CityDetails({ params }: { params: { city: string } }) {
       <Link href="/" className="flex text-blue-600 mb-2">
         &larr; Back!
       </Link>
-      {!weatherData && <p>Loading...</p>}
-      {weatherData && (
+      {error && <p className="text-red-600">Error: {error.message}</p>}
+      {weatherData.weather.current && (
         <div className="bg-white shadow-sm border p-4 rounded-sm">
           {location && (
             <h1>
-              {location.name}, {location.country} as of {now.getHours()}:
-              {now.getMinutes()}
+              {location.name}, {location.country} as of {location.localtime}
             </h1>
           )}
           {weather && (
