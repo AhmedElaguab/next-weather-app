@@ -21,31 +21,20 @@ export default async function CityDetails({
 
   return (
     <>
-      <Link href="/" className="flex text-blue-600 mb-2">
-        &larr; Back!
-      </Link>
-      {error && <p className="text-red-600">Error: {error.message}</p>}
-      {weatherData.weather.current && (
-        <div className="bg-white shadow-sm border p-4 rounded-sm">
-          {location && (
-            <h1>
-              {location.name}, {location.country} as of {location.localtime}
-            </h1>
-          )}
-          {weather && (
-            <>
-              <hr className="my-2" />
-              <div className="flex justify-between">
-                <p className="text-6xl font-medium my-2">{weather.temp_c}°</p>
-                <img
-                  src={weather.condition.icon}
-                  alt={weather.condition.text}
-                />
-              </div>
-              <p className="text-2xl font-medium">{weather.condition.text}</p>
-            </>
-          )}
-        </div>
+      {location && (
+        <h1>
+          {location.name}, {location.country} as of {location.localtime}
+        </h1>
+      )}
+      {weather && (
+        <>
+          <hr className="my-2" />
+          <div className="flex justify-between">
+            <p className="text-6xl font-medium my-2">{weather.temp_c}°</p>
+            <img src={weather.condition.icon} alt={weather.condition.text} />
+          </div>
+          <p className="text-2xl font-medium">{weather.condition.text}</p>
+        </>
       )}
     </>
   );
