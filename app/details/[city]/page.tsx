@@ -28,12 +28,24 @@ export default async function CityDetails({
       )}
       {weather && (
         <>
-          <hr className="my-2" />
+          <hr className="my-4" />
           <div className="flex justify-between">
             <p className="text-6xl font-medium my-2">{weather.temp_c}°</p>
             <img src={weather.condition.icon} alt={weather.condition.text} />
           </div>
           <p className="text-2xl font-medium">{weather.condition.text}</p>
+
+          <hr className="mt-4 mb-4" />
+          <ul className="flex justify-between">
+            <li>
+              Wind:{' '}
+              <span className="font-semibold">{weather.wind_kph} km/h</span>
+            </li>
+            <li>
+              Humadity:{' '}
+              <span className="font-semibold">{weather.humidity}%</span>
+            </li>
+          </ul>
         </>
       )}
     </>
